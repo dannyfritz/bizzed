@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Buzzed!</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.3/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.5.3/vue-router.min.js"></script>
+  </head>
+  <body>
+    
+    <script type="text/html" id="lobbyTemplate">
+      <h2>Lobby</h2>
+    </script>
+    
+    <script type="text/html" id="roomTemplate">
+      <div>
+        <h2>Room</h2>
+        {{ id }}
+        {{ winner }}
+        <br>
+        <button @click="start">Start</button>
+        <button v-if="!winner" @click="buzz">Buzz</button>
+      </div>
+    </script>
+    
+    <script type="text/html" id="appTemplate">
+      <div>
+        <ul>
+          <li>
+            <router-link to="/">Lobby</router-link>
+          </li>
+        </ul>
+        <h1>Buzzed</h1>
+        <main>
+          <router-view></router-view>
+        </main>
+      </div>
+    </script>
+    
+    <div id="app"></div>
+    <script src="main.js"></script>
+  </body>
+</html>
