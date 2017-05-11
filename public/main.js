@@ -17,12 +17,18 @@ const buzzer = new Buzzer()
 
 const Lobby = {
   template: "#lobbyTemplate",
+  data () {
+    return {
+      name: "",
+      room: "",
+    }
+  }
 }
 
 const Room = {
   props: ["id"],
   template: "#roomTemplate",
-  data() {
+  data () {
     return {
       winner: "",
     }

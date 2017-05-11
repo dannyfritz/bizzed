@@ -10,27 +10,36 @@
   <body>
     
     <script type="text/html" id="lobbyTemplate">
-      <h2>Lobby</h2>
+      <div>
+        <h2>Lobby</h2>
+        <label>Name: <input v-model="name"></label>
+        <label>Room: <input v-model="room"></label>
+        <router-link :to="{ path: `/room/${this.room}`}">Join</router-link>
+      </div>
     </script>
     
     <script type="text/html" id="roomTemplate">
       <div>
-        <h2>Room</h2>
-        {{ id }}
-        {{ winner }}
-        <br>
-        <button @click="start">Start</button>
-        <button v-if="!winner" @click="buzz">Buzz</button>
+        <h2>Room {{ id }}</h2>
+        <div>
+          <span v-if="winner">{{ winner }}</span>
+        </div>
+        <div>
+          <button @click="start">Start</button>
+          <button v-if="!winner" @click="buzz">Buzz</button>
+        </div>
       </div>
     </script>
     
     <script type="text/html" id="appTemplate">
       <div>
-        <ul>
-          <li>
-            <router-link to="/">Lobby</router-link>
-          </li>
-        </ul>
+        <nav>
+          <ul>
+            <li>
+              <router-link to="/">Lobby</router-link>
+            </li>
+          </ul>
+        </nav>
         <h1>Buzzed</h1>
         <main>
           <router-view></router-view>

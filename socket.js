@@ -49,9 +49,6 @@ io.on("connection", function (socket) {
     room.setWinner({ winner: socket.id })
     io.to(id).emit("winner", { winner: room.getWinner() })
   })
-  socket.on("disconnect", function (reason) {
-    console.log(reason)
-  })
 })
 
 module.exports = io
