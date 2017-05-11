@@ -55,7 +55,7 @@ const Room = {
     })
   },
   watch: {
-    id () {
+    roomId () {
       this.join()
     }
   }
