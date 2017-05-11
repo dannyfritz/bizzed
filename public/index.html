@@ -12,7 +12,6 @@
     <script type="text/html" id="lobbyTemplate">
       <div>
         <h2>Lobby</h2>
-        <label>Name: <input v-model="name"></label>
         <label>Room: <input v-model="room"></label>
         <router-link :to="{ path: `/room/${this.room}`}">Join</router-link>
       </div>
@@ -20,13 +19,14 @@
     
     <script type="text/html" id="roomTemplate">
       <div>
-        <h2>Room {{ id }}</h2>
-        <div>
-          <span v-if="winner">{{ winner }}</span>
+        <h2>Room {{ roomId }}</h2>
+        <label>Name: <input v-model="name"></label>
+        <div v-if="winner.name">
+          <span>Winner: </span><span>{{ winner.name }}</span>
         </div>
         <div>
           <button @click="start">Start</button>
-          <button v-if="!winner" @click="buzz">Buzz</button>
+          <button v-if="!winner.name && name" @click="buzz">Buzz</button>
         </div>
       </div>
     </script>

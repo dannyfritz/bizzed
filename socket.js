@@ -7,11 +7,11 @@ class Room {
   reset () {
     this.winner = null
   }
-  setWinner ({ winner }) {
+  setWinner ({ name, id }) {
     if (this.winner) {
       return
     }
-    this.winner = winner
+    this.winner = { name, id }
   }
   getWinner () {
     return this.winner
@@ -44,10 +44,11 @@ io.on("connection", function (socket) {
     room.reset()
     io.to(id).emit("start")
   })
-  socket.on("buzz", function ({ id }) {
+  socket.on("buzz", function ({ id, name }) {
     const room = roomManager.get({ id })
-    room.setWinner({ winner: socket.id })
-    io.to(id).emit("winner", { winner: room.getWinner() })
+    console.log(id, name)
+    room.setWinner({ name, id: socket.id })
+    io.to(id).emit("winner", room.getWinner())
   })
 })
 

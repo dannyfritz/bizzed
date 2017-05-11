@@ -2,14 +2,14 @@ class Buzzer {
   constructor () {
     this.socket = io()
   }
-  join ({ id }) {
-    this.socket.emit("join", { id })
+  join ({ id, name }) {
+    this.socket.emit("join", { id, name })
   }
-  buzz ({ id }) {
-    this.socket.emit("buzz", { id })
+  buzz ({ id, name }) {
+    this.socket.emit("buzz", { id, name })
   }
-  start ({ id }) {
-    this.socket.emit("start", { id })
+  start ({ id, name }) {
+    this.socket.emit("start", { id, name })
   }
 }
 
@@ -19,35 +19,36 @@ const Lobby = {
   template: "#lobbyTemplate",
   data () {
     return {
-      name: "",
       room: "",
     }
   }
 }
 
 const Room = {
-  props: ["id"],
+  props: ["roomId"],
   template: "#roomTemplate",
   data () {
     return {
-      winner: "",
+      name: "",
+      winner: {},
     }
   },
   methods: {
     join () {
-      buzzer.join({ id: this.id })
+      buzzer.join({ id: this.roomId, name: this.name })
     },
     buzz () {
-      buzzer.buzz({ id: this.id })
+      buzzer.buzz({ id: this.roomId, name: this.name })
     },
     start () {
-      buzzer.start({ id: this.id })
+      buzzer.start({ id: this.roomId, name: this.name })
     },
   },
   mounted () {
     this.join()
-    buzzer.socket.on("winner", ({ winner }) => {
-      this.winner = winner
+    buzzer.socket.on("winner", ({ name, id }) => {
+      console.log(name, id)
+      this.winner = { name, id }
     })
     buzzer.socket.on("start", () => {
       this.winner = ""
@@ -62,7 +63,7 @@ const Room = {
 
 const routes = [
   { path: "/", component: Lobby },
-  { path: "/room/:id", component: Room, props: true },
+  { path: "/room/:roomId", component: Room, props: true },
   { path: "*", redirect: "/" },
 ]
 
