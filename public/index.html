@@ -3,6 +3,9 @@
   <head>
     <meta charset="utf-8">
     <title>Buzzed!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.3/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue-router/2.5.3/vue-router.min.js"></script>
@@ -12,35 +15,52 @@
     <script type="text/html" id="lobbyTemplate">
       <div>
         <h2>Lobby</h2>
-        <label>Room: <input v-model="room"></label>
-        <router-link :to="{ path: `/room/${this.room}`}">Join</router-link>
+        <div class="row">
+          <form class="col m6 s12">
+            <div class="input-field">
+              <input id="room" type="text" v-model="room" class="validate" required>
+              <label for="room">Room</label>
+            </div>
+          </form>
+        </div>
+        <router-link :to="{ path: `/room/${this.room}`}" class="btn">Join</router-link>
       </div>
     </script>
     
     <script type="text/html" id="roomTemplate">
       <div>
         <h2>Room {{ roomId }}</h2>
-        <label>Name: <input v-model="name"></label>
-        <div v-if="winner.name">
-          <span>Winner: </span><span>{{ winner.name }}</span>
+        <div class="row">
+          <form class="col m6 s12">
+            <div class="input-field">
+              <input id="name" type="text" v-model="name" class="validate" required>
+              <label for="name">Name</label>
+            </div>
+          </form>
+          <div class="col m6 s12">
+            <button @click="start" class="waves-effect waves-light btn">Reset</button>
+            <button v-if="!winner.name && name" @click="buzz" class="red waves-effect waves-light btn">Buzz</button>
+          </div>
         </div>
-        <div>
-          <button @click="start">Start</button>
-          <button v-if="!winner.name && name" @click="buzz">Buzz</button>
+        <div class="row">
+          <div class="col s12 flow-text">
+            <span>Winner: </span><span>{{ winner.name }}</span>
+          </div>
         </div>
+        
       </div>
     </script>
     
     <script type="text/html" id="appTemplate">
       <div>
         <nav>
-          <ul>
-            <li>
-              <router-link to="/">Lobby</router-link>
-            </li>
-          </ul>
+          <div class="nav-wrapper">
+            <span class="brand-logo">Buzzed</span>
+            <ul class="left">
+              <router-link to="/" tag="li" exact-active-class="active"><a>Lobby</a></router-link>
+            </ul>
+          </div>
         </nav>
-        <h1>Buzzed</h1>
         <main>
           <router-view></router-view>
         </main>
